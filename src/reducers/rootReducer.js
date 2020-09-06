@@ -1,10 +1,8 @@
-/*
-  src/actions/rootReducer.js
-*/
-
 import { combineReducers } from "redux";
-import { addArticlesReducer } from "./addArticlesReducer";
+import todos from "./todos";
+import visibilityFilter from "./visibilityFilter";
 
 export const rootReducer = combineReducers({
-  addArticlesReducer,
+  todos,
+  visibilityFilter,
 });
