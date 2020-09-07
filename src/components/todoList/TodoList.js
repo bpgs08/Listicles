@@ -1,38 +1,35 @@
 import React, { useState } from "react";
-import PropTypes from "prop-types";
 import styled from "styled-components";
 import Todo from "../todo";
+import SortImage from "../../assets/icons/sort-up-solid.svg";
 import HeaderElements from "../headerElements";
 import { colors, space, media } from "../../utils/theme";
 
 const TodoList = React.memo(
-  ({ todos, markActive, markCompleteFromNew, markCompleteFromAll }) => {
+  ({
+    newTodos,
+    allTodos,
+    completedTodos,
+    sorted,
+    markActive,
+    markCompleteFromNew,
+    markCompleteFromAll,
+    sortByDueDate,
+  }) => {
     const [showCompleted, setShowCompleted] = useState(false);
-    const newTodos = [];
-    const completedTodos = [];
-    // const allTodos = todos.reduce((result, value) => {
-    //   if (!value.date && !value.completed) {
-    //     newTodos.push(value);
-    //   } else if (value.completed) {
-    //     completedTodos.push(value);
-    //   } else {
-    //     result.push(value);
-    //   }
-    //   return result;
-    // }, []);
     const hideCompletedTasks = () => {
       setShowCompleted(!showCompleted);
     };
-    console.log(todos);
+
     return (
       <TodoListContainer>
-        {/* {todos.new.length > 0 && (
+        {newTodos.length > 0 && (
           <>
             <TodoTitle type={8} bold={true} color={colors.purple}>
               NEW TASKS
             </TodoTitle>
             <ul>
-              {todos.new.map((todo) => (
+              {newTodos.map((todo) => (
                 <Todo
                   key={todo.id}
                   {...todo}
@@ -41,15 +38,24 @@ const TodoList = React.memo(
               ))}
             </ul>
           </>
-        )} */}
+        )}
 
-        {todos.all.length > 0 && (
+        {allTodos.length > 0 && (
           <>
-            <TodoTitle type={8} bold={true} color={colors.purple}>
-              ALL TASKS
-            </TodoTitle>
+            <FlexContainer>
+              <TodoTitle type={8} bold={true} color={colors.purple}>
+                ALL TASKS
+              </TodoTitle>
+              <SortByContainer
+                onClick={sortByDueDate}
+                SortImage={SortImage}
+                sorted={sorted}
+              >
+                Sort by: Due Date
+              </SortByContainer>
+            </FlexContainer>
             <ul>
-              {todos.all.map((todo) => (
+              {allTodos.map((todo) => (
                 <Todo
                   key={todo.id}
                   {...todo}
@@ -60,14 +66,14 @@ const TodoList = React.memo(
           </>
         )}
 
-        {todos.completed.length > 0 && (
+        {completedTodos.length > 0 && (
           <>
             <HideAndShow onClick={hideCompletedTasks}>
               {showCompleted ? "Hide Completed Tasks" : "Show Completed Tasks"}
             </HideAndShow>
             {showCompleted && (
               <ul>
-                {todos.completed.map((todo) => (
+                {completedTodos.map((todo) => (
                   <Todo
                     key={todo.id}
                     {...todo}
@@ -82,6 +88,29 @@ const TodoList = React.memo(
     );
   }
 );
+
+const SortByContainer = styled.div`
+  margin-left: auto;
+  font-size: 14px;
+  cursor: pointer;
+  color: ${colors.purple};
+  &:after {
+    display: inline-block;
+    content: " ";
+    background-image: url(${SortImage});
+    background-size: ${space[3]} ${space[3]};
+    height: ${space[3]};
+    width: ${space[3]};
+    background-repeat: no-repeat;
+    ${(props) =>
+      !props.sorted ? `transform: rotate(180deg);top: 5%;` : `top: 25%;`};
+    position: relative;
+  }
+`;
+
+const FlexContainer = styled.div`
+  display: flex;
+`;
 
 const TodoTitle = styled(HeaderElements)`
   margin-bottom: ${space[2]};
@@ -102,16 +131,5 @@ const TodoListContainer = styled.div`
   `}
   margin: ${space[4]} auto 0px auto;
 `;
-
-TodoList.propTypes = {
-  todos: PropTypes.arrayOf(
-    PropTypes.shape({
-      id: PropTypes.number.isRequired,
-      completed: PropTypes.bool.isRequired,
-      text: PropTypes.string.isRequired,
-    }).isRequired
-  ).isRequired,
-  toggleTodo: PropTypes.func.isRequired,
-};
 
 export default TodoList;

@@ -8,21 +8,19 @@ const AddTodo = ({ dispatch }) => {
   let input;
 
   return (
-    <div>
-      <InputContainer
-        onSubmit={(e) => {
-          e.preventDefault();
-          if (!input.value.trim()) {
-            return;
-          }
-          dispatch(addTodo(input.value));
-          input.value = "";
-        }}
-      >
-        <Input placeholder="Add a to-do" ref={(node) => (input = node)} />
-        <InputButton type="submit">ADD</InputButton>
-      </InputContainer>
-    </div>
+    <InputContainer
+      onSubmit={(e) => {
+        e.preventDefault();
+        if (!input.value.trim()) {
+          return;
+        }
+        dispatch(addTodo(input.value));
+        input.value = "";
+      }}
+    >
+      <Input placeholder="Add a to-do" ref={(node) => (input = node)} />
+      <InputButton type="submit">ADD</InputButton>
+    </InputContainer>
   );
 };
 
@@ -48,7 +46,7 @@ const Input = styled.input`
 
 const InputButton = styled.button`
   padding: ${space[2]};
-  background: white;
+  background: ${colors.white};
   border: ${space[0]};
   cursor: pointer;
   color: ${colors.purple};

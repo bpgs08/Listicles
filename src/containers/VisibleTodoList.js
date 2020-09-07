@@ -3,31 +3,22 @@ import {
   markActive,
   markCompleteFromNew,
   markCompleteFromAll,
+  sortByDueDate,
 } from "../actions";
 import TodoList from "../components/todoList";
-import { VisibilityFilters } from "../actions";
-
-const getVisibleTodos = (todos, filter) => {
-  switch (filter) {
-    case VisibilityFilters.SHOW_ALL:
-      return todos;
-    case VisibilityFilters.SHOW_COMPLETED:
-      return todos.filter((t) => t.completed);
-    case VisibilityFilters.SHOW_ACTIVE:
-      return todos.filter((t) => !t.completed);
-    default:
-      throw new Error("Unknown filter: " + filter);
-  }
-};
 
 const mapStateToProps = (state) => ({
-  todos: getVisibleTodos(state.todos, state.visibilityFilter),
+  newTodos: state.todos.new,
+  allTodos: state.todos.all,
+  completedTodos: state.todos.completed,
+  sorted: state.todos.sorted,
 });
 
-const mapDispatchToProps = (dispatch) => ({
-  markActive: (id) => dispatch(markActive(id)),
-  markCompleteFromNew: (id) => dispatch(markCompleteFromNew(id)),
-  markCompleteFromAll: (id) => dispatch(markCompleteFromAll(id)),
-});
+const mapDispatchToProps = {
+  markActive,
+  markCompleteFromNew,
+  markCompleteFromAll,
+  sortByDueDate,
+};
 
 export default connect(mapStateToProps, mapDispatchToProps)(TodoList);
