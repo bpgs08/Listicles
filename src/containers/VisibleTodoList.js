@@ -1,5 +1,9 @@
 import { connect } from "react-redux";
-import { toggleTodo } from "../actions";
+import {
+  markActive,
+  markCompleteFromNew,
+  markCompleteFromAll,
+} from "../actions";
 import TodoList from "../components/todoList";
 import { VisibilityFilters } from "../actions";
 
@@ -21,7 +25,9 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  toggleTodo: (id) => dispatch(toggleTodo(id)),
+  markActive: (id) => dispatch(markActive(id)),
+  markCompleteFromNew: (id) => dispatch(markCompleteFromNew(id)),
+  markCompleteFromAll: (id) => dispatch(markCompleteFromAll(id)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(TodoList);

@@ -5,80 +5,95 @@ import Todo from "../todo";
 import HeaderElements from "../headerElements";
 import { colors, space, media } from "../../utils/theme";
 
-const TodoList = React.memo(({ todos, toggleTodo }) => {
-  const [showCompleted, setShowCompleted] = useState(false);
-  const newTodos = [];
-  const completedTodos = [];
-  const allTodos = todos.reduce((result, value) => {
-    if (!value.date && !value.completed) {
-      newTodos.push(value);
-    } else if (value.completed) {
-      completedTodos.push(value);
-    } else {
-      result.push(value);
-    }
-    return result;
-  }, []);
-  const hideCompletedTasks = () => {
-    setShowCompleted(!showCompleted);
-  };
-  return (
-    <TodoListContainer>
-      {newTodos.length > 0 && (
-        <>
-          <HeaderElements type={8} bold={true} color={colors.purple}>
-            NEW TASKS
-          </HeaderElements>
-          <ul>
-            {newTodos.map((todo) => (
-              <Todo
-                key={todo.id}
-                {...todo}
-                onClick={() => toggleTodo(todo.id)}
-              />
-            ))}
-          </ul>
-        </>
-      )}
-
-      {allTodos.length > 0 && (
-        <>
-          <HeaderElements type={8} bold={true} color={colors.purple}>
-            ALL TASKS
-          </HeaderElements>
-          <ul>
-            {allTodos.map((todo) => (
-              <Todo
-                key={todo.id}
-                {...todo}
-                onClick={() => toggleTodo(todo.id)}
-              />
-            ))}
-          </ul>
-        </>
-      )}
-
-      {completedTodos.length > 0 && (
-        <>
-          <div onClick={hideCompletedTasks}>
-            {showCompleted ? "Hide Completed Tasks" : "Show Completed Tasks"}
-          </div>
-          {showCompleted && (
+const TodoList = React.memo(
+  ({ todos, markActive, markCompleteFromNew, markCompleteFromAll }) => {
+    const [showCompleted, setShowCompleted] = useState(false);
+    const newTodos = [];
+    const completedTodos = [];
+    // const allTodos = todos.reduce((result, value) => {
+    //   if (!value.date && !value.completed) {
+    //     newTodos.push(value);
+    //   } else if (value.completed) {
+    //     completedTodos.push(value);
+    //   } else {
+    //     result.push(value);
+    //   }
+    //   return result;
+    // }, []);
+    const hideCompletedTasks = () => {
+      setShowCompleted(!showCompleted);
+    };
+    console.log(todos);
+    return (
+      <TodoListContainer>
+        {/* {todos.new.length > 0 && (
+          <>
+            <TodoTitle type={8} bold={true} color={colors.purple}>
+              NEW TASKS
+            </TodoTitle>
             <ul>
-              {completedTodos.map((todo) => (
+              {todos.new.map((todo) => (
                 <Todo
                   key={todo.id}
                   {...todo}
-                  onClick={() => toggleTodo(todo.id)}
+                  onClick={() => markCompleteFromNew(todo.id)}
                 />
               ))}
             </ul>
-          )}
-        </>
-      )}
-    </TodoListContainer>
-  );
-});
+          </>
+        )} */}
+
+        {todos.all.length > 0 && (
+          <>
+            <TodoTitle type={8} bold={true} color={colors.purple}>
+              ALL TASKS
+            </TodoTitle>
+            <ul>
+              {todos.all.map((todo) => (
+                <Todo
+                  key={todo.id}
+                  {...todo}
+                  onClick={() => markCompleteFromAll(todo.id)}
+                />
+              ))}
+            </ul>
+          </>
+        )}
+
+        {todos.completed.length > 0 && (
+          <>
+            <HideAndShow onClick={hideCompletedTasks}>
+              {showCompleted ? "Hide Completed Tasks" : "Show Completed Tasks"}
+            </HideAndShow>
+            {showCompleted && (
+              <ul>
+                {todos.completed.map((todo) => (
+                  <Todo
+                    key={todo.id}
+                    {...todo}
+                    onClick={() => markActive(todo.id)}
+                  />
+                ))}
+              </ul>
+            )}
+          </>
+        )}
+      </TodoListContainer>
+    );
+  }
+);
+
+const TodoTitle = styled(HeaderElements)`
+  margin-bottom: ${space[2]};
+`;
+
+const HideAndShow = styled.div`
+  text-align: center;
+  margin-bottom: ${space[2]};
+  cursor: pointer;
+  text-decoration: underline;
+  color: ${colors.grey};
+`;
 
 const TodoListContainer = styled.div`
   max-width: 300px;

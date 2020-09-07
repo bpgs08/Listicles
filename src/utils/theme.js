@@ -40,6 +40,8 @@ export const media = Object.keys(sizes).reduce((acc, label) => {
 const theme = {
   colors: {
     purple: "#7b68ee",
+    grey: "#8c8995",
+    lightgrey: "#f0f1f3",
   },
 };
 
