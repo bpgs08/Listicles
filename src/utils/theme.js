@@ -42,6 +42,9 @@ const theme = {
     purple: "#7b68ee",
     grey: "#8c8995",
     lightgrey: "#f0f1f3",
+    orange: "orange",
+    black: "black",
+    white: "white",
   },
 };
 

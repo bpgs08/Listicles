@@ -1,8 +1,7 @@
 import React from "react";
 import AddTodo from "../../containers/AddTodo";
 import styled from "styled-components";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faPencilAlt } from "@fortawesome/free-solid-svg-icons";
+import PencilAltSolid from "../../assets/icons/pencil-alt-solid.svg";
 import { colors, media, space } from "../../utils/theme";
 import HeaderElements from "../headerElements";
 
@@ -18,12 +17,16 @@ const Heading = () => {
         align="center"
         color={"white"}
       >
-        Marketing Content <FontAwesomeIcon icon={faPencilAlt} />
+        Marketing Content <PencilImage src={PencilAltSolid} />
       </MarketingContentText>
       <AddTodo />
     </HeadingContainer>
   );
 };
+
+const PencilImage = styled.img`
+  width: ${space[3]};
+`;
 
 const ListiclesText = styled(HeaderElements)`
   margin-bottom: ${space[6]};

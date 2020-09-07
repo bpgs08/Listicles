@@ -1,18 +1,12 @@
-let nextTodoId = 0;
+import { v4 as uuid } from "uuid";
 export const addTodo = (text) => ({
   type: "ADD_TODO",
-  id: nextTodoId++,
+  id: uuid(),
   text,
 });
 
-export const setVisibilityFilter = (filter) => ({
-  type: "SET_VISIBILITY_FILTER",
-  filter,
-});
-
-export const toggleTodo = (id) => ({
-  type: "TOGGLE_TODO",
-  id,
+export const sortByDueDate = () => ({
+  type: "SORT_BY_DUE_DATE",
 });
 
 export const markActive = (id) => ({
@@ -29,9 +23,3 @@ export const markCompleteFromAll = (id) => ({
   type: "MARK_COMPLETE_FROM_ALL",
   id,
 });
-
-export const VisibilityFilters = {
-  SHOW_ALL: "SHOW_ALL",
-  SHOW_COMPLETED: "SHOW_COMPLETED",
-  SHOW_ACTIVE: "SHOW_ACTIVE",
-};

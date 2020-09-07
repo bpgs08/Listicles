@@ -7,7 +7,7 @@ import CalendarBlack from "../../assets/icons/calendar-regular-black.svg";
 import CalendarOrange from "../../assets/icons/calendar-regular-orange.svg";
 import CalendarGrey from "../../assets/icons/calendar-regular-grey.svg";
 import moment from "moment";
-import { space, colors } from "../../utils/theme";
+import { space, colors, media } from "../../utils/theme";
 
 const Todo = React.memo(({ onClick, completed, text, date }) => {
   const itemDate = moment(date).format("MMM D");
@@ -17,6 +17,7 @@ const Todo = React.memo(({ onClick, completed, text, date }) => {
       <span
         style={{
           textDecoration: completed ? "line-through" : "none",
+          color: completed && `${colors.grey}`,
         }}
       >
         {text}
@@ -31,16 +32,16 @@ const Todo = React.memo(({ onClick, completed, text, date }) => {
 });
 
 const DateDisplay = styled.span`
-  margin-left: auto;
+  text-align: right;
   text-decoration: none;
-  display: flex;
+  display: block;
   color: ${(props) => {
     if (!props.completed && props.isToday) {
-      return `orange`;
+      return `${colors.orange}`;
     } else if (props.completed) {
       return `${colors.grey}`;
     } else {
-      return `black`;
+      return `${colors.black}`;
     }
   }};
   &:after {
@@ -61,10 +62,13 @@ const DateDisplay = styled.span`
     margin-left: ${space[1]};
     background-repeat: no-repeat;
   }
+  ${media.tablet`
+    margin-left: auto;
+    display: flex;
+  `}
 `;
 
 const LiItem = styled.li`
-  display: flex;
   align-items: center;
   cursor: pointer;
   padding-bottom: ${space[3]};
@@ -83,6 +87,9 @@ const LiItem = styled.li`
     width: ${space[3]};
     margin-right: ${space[2]};
   }
+  ${media.tablet`
+    display: flex;
+  `}
 `;
 
 Todo.propTypes = {
